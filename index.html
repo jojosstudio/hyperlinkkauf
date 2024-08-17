@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyperlink</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #595959;
+            color: #333;
+        }
+        header {
+            background-color: #595959;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .product-selection {
+            flex: 1;
+            margin-right: 20px;
+        }
+        .product {
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+        .product img {
+            max-width: 150px;
+            margin-bottom: 10px;
+        }
+        .product.selected {
+            border-color: #000000;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .purchase-options {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .buy-now {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #000000;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        .buy-now:hover {
+            background-color: #494949;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <picture>
+            <img src="logo.png" alt="fehler">    
+        </picture>
+        <h1>Hyperlink</h1>
+    </header>
+    <div class="container">
+        <div class="product-selection">
+            <div class="product" onclick="selectProduct('rt1', 'Hyperlink 1.0', '99.99', 'router1.jpg')">
+                <img src="router1.png" alt="Router 1">
+                <h3>Hyperlink 1.0</h3>
+                <h2> Sale!</h2>
+                <s>€130</s>
+                <h3>€99.99</h3>
+            </div>
+            <div class="product" onclick="selectProduct('rt2', 'Hyperlink 1.0 Pro', '199.99', 'router2.jpg')">
+                <img src="router2.png" alt="Router 2">
+                <h3>Hyperlink 1.0 Pro</h3>
+                <h4>Für Gamer Entwickelt</h4>
+                <p>€199.99</p>
+            </div>
+            <div class="product" onclick="selectProduct('rt3', 'Test Hyperlink', '0', 'router2.jpg')">
+                <img src="router3.png" alt="Router 3">
+                <h3>test hyperlink</h3>
+                <p>free</p>
+            </div>
+        </div>
+        <div class="purchase-options">
+            <a id="buyNowLink" class="buy-now" href="#">Jetzt Kaufen</a>
+        </div>
+        <div class="Einrichtung">
+            <a href="einrichtungrt1.html">Einrichtung</a>
+        </div>
+    </div>
+
+    <script>
+        
+        function selectProduct(productId, productName, productPrice, productImage) {
+            document.querySelectorAll('.product').forEach(product => {
+                product.classList.remove('selected');
+            });
+            document.querySelector(`[onclick="selectProduct('${productId}', '${productName}', '${productPrice}', '${productImage}')"]`).classList.add('selected');
+            const buyNowLink = document.getElementById('buyNowLink');
+            if (productId === 'rt1') {
+                buyNowLink.href = `rt1.html?product=${productId}&name=${encodeURIComponent(productName)}&price=${productPrice}&image=${productImage}`;
+            } else if (productId === 'rt2') {
+                buyNowLink.href = `rt2.html?product=${productId}&name=${encodeURIComponent(productName)}&price=${productPrice}&image=${productImage}`;
+            } else if (productId === 'rt3'){
+                buyNowLink.href = `rt3.html?product=${productId}&name=${encodeURIComponent(productName)}&price=${productPrice}&image=${productImage}`;
+            }
+        }    
+            
+    </script>
+</body>
+</html>

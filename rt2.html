@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyperlink Pro Kaufseite</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #6c6c6c;
+            color: #333;
+        }
+        header {
+            background-color: #000;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .product-details {
+            flex: 2;
+            text-align: center;
+            margin-right: 20px;
+        }
+        .product-details img {
+            max-width: 100%;
+            margin-bottom: 10px;
+        }
+        .product-details h3 {
+            font-size: 24px;
+        }
+        .product-details p {
+            font-size: 20px;
+            color: #888;
+        }
+        .purchase-options {
+            flex: 1;
+            position: sticky;
+            top: 20px;
+            border-left: 1px solid #ccc;
+            padding-left: 20px;
+        }
+        select, input, button {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 18px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #000;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #333;
+        }
+        .fine-print {
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <picture>
+            <img src="logo.png" alt="fehler">
+        </picture>
+    </header>
+    <div class="container">
+        <div class="product-details">
+            <img src="router2.png" alt="Router 2">
+            <h3 id="productName"></h3>
+            <p id="basePrice"></p>
+            <p id="finalPrice"></p>
+        </div>
+        <div class="purchase-options">
+            <form action="bestellung_abschicken.html" method="get" onsubmit="return validatePhoneNumber()">
+                <select name="storage" id="storage" required onchange="updatePriceAndImage()">
+                    <option value="">Speichergröße wählen</option>
+                    <option value="100gb"> 100gb</option>
+                    <option value="256GB" data-price="46">256GB (+€46)</option>
+                    <option value="500GB" data-price="99">500GB (+€99)</option>
+                </select>
+                <select name="lan" id="lan" required onchange="updatePriceAndImage()">
+                    <option value="">LAN Anschlüsse wählen</option>
+                    <option value="lan6" data-price="0">6 Anschlüsse</option>
+                    <option value="lan12" data-price="50">12 Anschlüsse (+€50)</option>
+                </select>
+                <select name="wlan" id="wlan" required onchange="updatePriceAndImage()">
+                    <option value="">WLAN Typ wählen</option>
+                    <option value="wlan-5.0" data-price=""> wlan-5</option>
+                    <option value="WLAN-6.0" data-price="30">WLAN 6.0 (+€30)</option>
+                    <option value="Sim" data-price="100">Sim (+€100)</option>
+                </select>
+                <input type="hidden" name="product" id="product" value="">
+                <input type="hidden" name="price" id="price" value="">
+                <input type="text" name="name" placeholder="Vorname Nachname" required>
+                <input type="email" name="email" placeholder="E-Mail Adresse" required>
+                <input type="tel" name="phone" placeholder="Telefonnummer" pattern="^\+?[0-9]{1,3}?[-.\s]?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$" required>
+                <button type="submit">Jetzt Kaufen</button>
+            </form>
+            <a href="agb.html">sie bestätigen automatisch mit dem kauf die agbs</a>
+        </div>
+    </div>
+
+    <script>
+        function getParameterByName(name) {
+            const url = window.location.href;
+            const nameEscaped = name.replace(/[\[\]]/g, '\\$&');
+            const regex = new RegExp('[?&]' + nameEscaped + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        window.onload = function() {
+            const productName = getParameterByName('name');
+            const productPrice = getParameterByName('price');
+            const productImage = getParameterByName('image');
+            document.getElementById('productName').innerText = productName;
+            document.getElementById('basePrice').innerText = `Basispreis: €${productPrice}`;
+            document.getElementById('finalPrice').innerText = `Gesamtpreis: €${productPrice}`;
+            document.getElementById('productImage').src = productImage;
+            document.getElementById('product').value = productName;
+            document.getElementById('price').value = productPrice;
+            updatePriceAndImage();
+        };
+
+        function updatePriceAndImage() {
+            const basePrice = parseFloat(getParameterByName('price'));
+            const storageSelect = document.getElementById('storage');
+            const lanSelect = document.getElementById('lan');
+            const wlanSelect = document.getElementById('wlan');
+            const storagePrice = parseFloat(storageSelect.options[storageSelect.selectedIndex].getAttribute('data-price')) || 0;
+            const lanPrice = parseFloat(lanSelect.options[lanSelect.selectedIndex].getAttribute('data-price')) || 0;
+            const wlanPrice = parseFloat(wlanSelect.options[wlanSelect.selectedIndex].getAttribute('data-price')) || 0;
+            const finalPrice = basePrice + storagePrice + lanPrice + wlanPrice;
+
+            document.getElementById('finalPrice').innerText = `Gesamtpreis: €${finalPrice.toFixed(2)}`;
+            document.getElementById('price').value = finalPrice.toFixed(2);
+
+            const storage = storageSelect.value;
+            const lan = lanSelect.value;
+            const wlan = wlanSelect.value;
+            const baseImage = getParameterByName('image');
+            let newImage = baseImage;
+            if (storage !== "") newImage = newImage.replace('.png', `_${storage}.png`);
+            if (lan !== "") newImage = newImage.replace('.png', `_${lan}.png`);
+            if (wlan !== "") newImage = newImage.replace('.png', `_${wlan}.png`);
+            document.getElementById('productImage').src = newImage;
+        }
+
+        function validatePhoneNumber() {
+            var phoneNumber = document.getElementsByName("phone")[0].value;
+            // Hier ein einfaches Regex-Muster für eine Telefonnummer (für Deutschland):
+            var phoneNumberPattern = /^\+?[0-9]{1,3}?[-.\s]?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$/;
+            
+            if (!phoneNumberPattern.test(phoneNumber)) {
+                alert("Bitte geben Sie eine gültige Telefonnummer ein!");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

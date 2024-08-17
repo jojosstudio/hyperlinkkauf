@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bestellung abgeschickt</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #2c2c2c;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bestellung abgeschlossen</h1>
+        <p>Vielen Dank für Ihre Bestellung!</p>
+        <p><strong>Name:</strong> <span id="name"></span></p>
+        <p><strong>E-Mail:</strong> <span id="email"></span></p>
+        <p><strong>Telefon:</strong> <span id="phone"></span></p>
+        <p><strong>Produkt:</strong> <span id="product"></span></p>
+        <p><strong>Speichergröße:</strong> <span id="storage"></span></p>
+        <p><strong>Typ:</strong> <span id="wlan"></span></p>
+        <p><strong>lan:</strong> <span id="lan"></span></p>
+        <p><strong>Gesamtpreis:</strong> <span id="price"></span></p>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            document.getElementById('name').innerText = urlParams.get('name');
+            document.getElementById('email').innerText = urlParams.get('email');
+            document.getElementById('phone').innerText = urlParams.get('phone');
+            document.getElementById('product').innerText = urlParams.get('product');
+            document.getElementById('price').innerText = `€${urlParams.get('price')}`;
+            document.getElementById('storage').innerText = urlParams.get('storage');
+            document.getElementById('wlan').innerText = urlParams.get('wlan');
+            document.getElementById('lan').innerText = urlParams.get('lan');
+        };
+    </script>
+</body>
+</html>

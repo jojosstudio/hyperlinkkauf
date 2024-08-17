@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WLAN Router Shop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #8b8b8b;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgb(255, 255, 255);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .product-selection {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .product {
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #000000;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        .product img {
+            max-width: 100px;
+            margin-bottom: 10px;
+        }
+        .product.selected {
+            border-color: #007aff;
+            box-shadow: 0 0 10px rgba(0, 122, 255, 0.5);
+        }
+        .buy-now {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007aff;
+            color: rgb(255, 255, 255);
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        .buy-now:hover {
+            background-color: #005bb5;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Wählen sie ihr Hyperlink</h1>
+    </header>
+    <div class="container">
+        <h2>Welches model?</h2>
+        <div class="product-selection">
+            <div class="product" onclick="selectProduct('router1')">
+                <img src="router1.jpg" alt="">
+                <h3>Hyperlink</h3>
+                <p>Free</p>
+            </div>
+            <div class="product" onclick="selectProduct('router2')">
+                <img src="router2.jpg" alt="">
+                <h3>Hyperlink Pro</h3>
+                <p>Free</p>
+            </div>
+            <div class="product" onclick="alert(`noch nicht Verfügabr`);">
+                <img src="router3.jpg" alt="">
+                <h3>Noch nicht Verfügbar</h3>
+                <p></p>
+            </div>
+        </div>
+        <a id="buyNowLink" class="buy-now" href="#">Jetzt Kaufen</a>
+    </div>
+
+    <script>
+        let selectedProduct = null;
+
+        function selectProduct(productId) {
+            selectedProduct = productId;
+            document.querySelectorAll('.product').forEach(product => {
+                product.classList.remove('selected');
+            });
+            document.querySelector(`[onclick="selectProduct('${productId}')"]`).classList.add('selected');
+            document.getElementById('buyNowLink').href = `buy.html?product=${productId}`;
+        }
+    </script>
+</body>
+</html>
