@@ -1,186 +1,243 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test seite</title>
-    <style>
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #6c6c6c;
-            color: #333;
-        }
-        header {
-            background-color: #000;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-        }
-        .container {
-            display: flex;
-            flex-direction: row;
-            width: 80%;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .product-details {
-            flex: 2;
-            text-align: center;
-            margin-right: 20px;
-        }
-        .product-details img {
-            max-width: 100%;
-            margin-bottom: 10px;
-        }
-        .product-details h3 {
-            font-size: 24px;
-        }
-        .product-details p {
-            font-size: 20px;
-            color: #888;
-        }
-        .purchase-options {
-            flex: 1;
-            position: sticky;
-            top: 20px;
-            border-left: 1px solid #ccc;
-            padding-left: 20px;
-        }
-        select, input, button {
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 18px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #000;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #333;
-        }
-        .fine-print {
-            text-align: center;
-            font-size: 14px;
-            color: #888;
-            margin-top: 20px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hyperlink Konfigurator</title>
+  <style>
+    :root {
+      --bg-dark: #121212;
+      --text-light: #f0f0f0;
+      --accent: #34c759;
+      --hover: #007745;
+      --transition: 0.4s ease-in-out;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+    }
+
+    header img {
+      height: 40px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px auto;
+      max-width: 1200px;
+      padding: 20px;
+    }
+
+    .step {
+      max-width: 500px;
+      margin: 40px auto;
+      text-align: center;
+      display: none;
+      opacity: 0;
+      transform: translateY(-30px);
+      transition: var(--transition);
+    }
+
+    .step.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .step h2 {
+      margin-bottom: 20px;
+      animation: fadeIn 1s forwards;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    select, input, button {
+      width: 90%;
+      padding: 15px;
+      margin-top: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background-color: #1e1e1e;
+      color: var(--text-light);
+    }
+
+    button {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: var(--hover);
+    }
+
+    .product-image {
+      text-align: center;
+      max-width: 500px;
+      margin-bottom: 20px;
+    }
+
+    .product-image img {
+      max-width: 80%;
+      height: auto;
+    }
+
+    .summary {
+      margin-top: 30px;
+    }
+
+    .setup-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .setup-section a {
+      color: var(--accent);
+      text-decoration: none;
+      margin-top: 20px;
+      font-size: 18px;
+      transition: color 0.3s;
+    }
+
+    .setup-section a:hover {
+      color: var(--hover);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .setup-section {
+        margin-top: 20px;
+        align-items: center;
+      }
+
+      select, input, button {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .setup-section {
+        margin-top: 20px;
+        align-items: center;
+      }
+
+      select, input, button {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <picture>
-            <img src="logo.png" alt="fehler">
-        </picture>
-        <h3>.... -.-- .--. . .-. .-.. .. -. -.-</h3>
-    </header>
-    <div class="container">
-        <div class="product-details">
-            <img src="router3.png" alt="Router 2">
-            <h3 id="productName"></h3>
-            <p id="basePrice"></p>
-            <p id="finalPrice"></p>
-        </div>
-        <div class="purchase-options">
-            <form action="bestellung_abschicken.html" method="get" onsubmit="return validatePhoneNumber()">
-                <select name="storage" id="storage" onchange="updatePriceAndImage()">
-                    <option value=""></option>
-                </select>
-                <select name="lan" id="lan" onchange="updatePriceAndImage()">
-                    <option value="">test minus-Preise</option>
-                    <option value="-0" data-price=""> -0</option>
-                    <option value="-50" data-price="-50">-50</option>
-                    <option value="-100" data-price="1-00">-100</option>
-                    <option value="-200" data-price="-200">-200</option>
-                    <option value="-300" data-price="-300">-300</option>
-                    <option value="-500" data-price="-500">-500</option>
-                    <option value="-1,000" data-price="-1000">-1,000</option>
-                    <option value="-10,000" data-price="-10000">-10,000</option>
-                    <option value="-100,000" data-price="-100000">-100,000</option>
-                    <option value="-1,000,000" data-price="-1000000">-1,000,000</option>
-                </select>
-                <select name="wlan" id="test" onchange="updatePriceAndImage()">
-                    <option value="">test Preise</option>
-                    <option value="0" data-price=""> 0</option>
-                    <option value="50" data-price="50">50</option>
-                    <option value="100" data-price="100">100</option>
-                    <option value="200" data-price="200">200</option>
-                    <option value="300" data-price="300">300</option>
-                    <option value="500" data-price="500">500</option>
-                    <option value="1,000" data-price="1000">1,000</option>
-                    <option value="10,000" data-price="10000">10,000</option>
-                    <option value="100,000" data-price="100000">100,000</option>
-                    <option value="1,000,000" data-price="1000000">1,000,000</option>
-                </select>
-                <input type="hidden" name="product" id="product" value="">
-                <input type="hidden" name="price" id="price" value="">
-                <input type="text" name="name" placeholder="Max Mustemann" >
-                <input type="email" name="email" placeholder="Maxmustermann@gmail.com" >
-                <input type="tel" name="phone" placeholder="test nummer">
-                <button type="submit">Jetzt Kaufen</button>
-            </form>
-            <a href="agb.html">Die Agbs Lesen</a>
-            <a href="einrichtungrt1.html">Oder einrichten?</a>
-        </div>
+  <header>
+    <img src="logo.png" alt="Logo" />
+    <h1>Hyperlink Konfigurator</h1>
+  </header>
+
+  <div class="container">
+    <div class="product-image">
+      <img src="router1.png" alt="Produktbild" />
     </div>
 
-    <script>
-        function getParameterByName(name) {
-            const url = window.location.href;
-            const nameEscaped = name.replace(/[\[\]]/g, '\\$&');
-            const regex = new RegExp('[?&]' + nameEscaped + '(=([^&#]*)|&|#|$)');
-            const results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, ' '));
-        }
+    <div class="step-container">
+      <div id="step1" class="step active">
+        <h2>Speicher wählen</h2>
+        <select id="storage" onchange="nextStep(2)">
+          <option value="">Bitte wählen</option>
+          <option value="0">Standard</option>
+          <option value="50">+ 50 € - 512 GB</option>
+          <option value="100">+ 100 € - 1 TB</option>
+        </select>
+      </div>
 
-        window.onload = function() {
-            const productName = getParameterByName('name');
-            const productPrice = getParameterByName('price');
-            const productImage = getParameterByName('image');
-            document.getElementById('productName').innerText = productName;
-            document.getElementById('basePrice').innerText = `Basispreis: €${productPrice}`;
-            document.getElementById('finalPrice').innerText = `Gesamtpreis: €${productPrice}`;
-            document.getElementById('productImage').src = productImage;
-            document.getElementById('product').value = productName;
-            document.getElementById('price').value = productPrice;
-            updatePriceAndImage();
-        };
+      <div id="step2" class="step">
+        <h2>LAN-Modul wählen</h2>
+        <select id="lan" onchange="nextStep(3)">
+          <option value="">Bitte wählen</option>
+          <option value="0">Standard</option>
+          <option value="50">+ 50 € - Gaming LAN</option>
+        </select>
+      </div>
 
-        function updatePriceAndImage() {
-            const basePrice = parseFloat(getParameterByName('price'));
-            const storageSelect = document.getElementById('storage');
-            const lanSelect = document.getElementById('lan');
-            const wlanSelect = document.getElementById('test');
-            const storagePrice = parseFloat(storageSelect.options[storageSelect.selectedIndex].getAttribute('data-price')) || 0;
-            const lanPrice = parseFloat(lanSelect.options[lanSelect.selectedIndex].getAttribute('data-price')) || 0;
-            const wlanPrice = parseFloat(wlanSelect.options[wlanSelect.selectedIndex].getAttribute('data-price')) || 0;
-            const finalPrice = basePrice + storagePrice + lanPrice + wlanPrice;
+      <div id="step3" class="step">
+        <h2>WLAN-Modul wählen</h2>
+        <select id="wlan" onchange="nextStep(4)">
+          <option value="">Bitte wählen</option>
+          <option value="0">Standard</option>
+          <option value="100">+ 100 € - WiFi 7</option>
+        </select>
+      </div>
 
-            document.getElementById('finalPrice').innerText = `Gesamtpreis: €${finalPrice.toFixed(2)}`;
-            document.getElementById('price').value = finalPrice.toFixed(2);
+      <div id="step4" class="step">
+        <h2>Deine Angaben</h2>
+        <input type="text" placeholder="Name" id="name" />
+        <input type="email" placeholder="E-Mail" id="email" />
+        <input type="tel" placeholder="Telefon" id="phone" />
+        <div class="summary" id="summary"></div>
+        <button onclick="submitForm()">Jetzt Kaufen</button>
+      </div>
+    </div>
 
-            const storage = storageSelect.value;
-            const lan = lanSelect.value;
-            const wlan = wlanSelect.value;
-            const baseImage = getParameterByName('image');
-            let newImage = baseImage;
-            if (storage !== "") newImage = newImage.replace('.png', `_${storage}.png`);
-            if (lan !== "") newImage = newImage.replace('.png', `_${lan}.png`);
-            if (wlan !== "") newImage = newImage.replace('.png', `_${wlan}.png`);
-            document.getElementById('productImage').src = newImage;
-        }
-    </script>
+    <div class="setup-section">
+    </div>
+  </div>
+
+  <script>
+    function nextStep(step) {
+      const current = document.querySelector(".step.active");
+      current.classList.remove("active");
+      document.getElementById("step" + step).classList.add("active");
+
+      if (step === 4) {
+        const storage = parseInt(document.getElementById("storage").value) || 0;
+        const lan = parseInt(document.getElementById("lan").value) || 0;
+        const wlan = parseInt(document.getElementById("wlan").value) || 0;
+        const total = 99.99 + storage + lan + wlan;
+
+        document.getElementById("summary").innerText = `Gesamtpreis: €${total.toFixed(2)}`;
+      }
+    }
+
+    function submitForm() {
+      alert("Bestellung abgeschickt!");
+      // Weiterleitung oder Absenden kannst du hier einbauen
+    }
+  </script>
 </body>
 </html>
