@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>⚠️ KRITISCHE WARNUNG! | System-Update erforderlich</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+      transition: all 0.3s;
+      user-select: none;
+      overflow-x: hidden;
+    }
+    
+    #header {
+      background-color: #ff4444;
+      color: white;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+    }
+    
+    #warning-icon {
+      font-size: 2em;
+      margin-right: 15px;
+    }
+    
+    #countdown {
+      font-size: 2.5em;
+      color: red;
+      margin: 20px;
+      font-family: 'Courier New', monospace;
+    }
+    
+    #fakeProgress {
+      width: 100%;
+      background-color: #ddd;
+      border-radius: 5px;
+      margin: 20px 0;
+    }
+    
+    #progressBar {
+      width: 0%;
+      height: 30px;
+      background-color: #4CAF50;
+      border-radius: 5px;
+      transition: width 0.3s;
+    }
+    
+    .btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 24px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    
+    .btn:hover {
+      background-color: #45a049;
+    }
+    
+    .btn:active {
+      transform: scale(0.95);
+    }
+    
+    #btnContainer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    #rickroll {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .fakePopup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      z-index: 100;
+      display: none;
+    }
+    
+    #fakeCloseBtn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      cursor: pointer;
+    }
+    
+    #micTest {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ffcc00;
+      padding: 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    #cursorTrail {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background-color: rgba(255,0,0,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      display: none;
+    }
+    
+    .annoyingElement {
+      position: absolute;
+      background-color: #ff9999;
+      padding: 5px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    
+    #keyboardTest {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: #e0e0e0;
+      padding: 10px;
+      border-radius: 5px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <div id="warning-icon">⚠️</div>
+    <div>
+      <h1>KRITISCHE SYSTEMWARNUNG</h1>
+      <p>Ihr System ist nicht sicher! Bitte führen Sie die folgenden Schritte aus.</p>
+    </div>
+  </div>
+  
+  <div id="countdown">01:00</div>
+  
+  <p>System-Update-Fortschritt:</p>
+  <div id="fakeProgress">
+    <div id="progressBar"></div>
+  </div>
+  
+  <p id="instruction">Bitte bestätigen Sie, dass Sie kein Roboter sind:</p>
+  
+  <div id="btnContainer">
+    <button class="btn" id="btn1">Sicherheit bestätigen</button>
+    <button class="btn" id="btn2">Virus scan starten</button>
+    <button class="btn" id="btn3">Firewall aktivieren</button>
+    <button class="btn" id="btn4">Ich bin kein Roboter</button>
+    <button class="btn" id="btn5">Alle Updates installieren</button>
+    <button class="btn" id="btn6">System optimieren</button>
+  </div>
+  
+  <div id="micTest">🎤</div>
+  
+  <div id="keyboardTest">Tippen Sie etwas...</div>
+  
+  <div id="cursorTrail"></div>
+  
+  <div class="fakePopup" id="cookiePopup">
+    <span id="fakeCloseBtn">✕</span>
+    <h3>Cookie-Einstellungen</h3>
+    <p>Wir verwenden Cookies. Bitte wählen Sie aus:</p>
+    <button class="btn" id="acceptAll">Alle akzeptieren</button>
+    <button class="btn" id="customize">Anpassen</button>
+  </div>
+  
+  <div class="fakePopup" id="updatePopup">
+    <span id="fakeCloseBtn2">✕</span>
+    <h3>Neues Update verfügbar!</h3>
+    <p>Installieren Sie jetzt die neueste Version für bessere Sicherheit.</p>
+    <button class="btn" id="updateNow">Jetzt aktualisieren</button>
+  </div>
+  
+  <div id="rickroll">
+    <video id="rickvid" src="rick.mp4" preload="auto" muted loop></video>
+  </div>
+
+  <script>
+    // Troll-Elemente
+    let afkTimeout;
+    const afkTime = 60 * 1000; // 1 Minute
+    const rickDiv = document.getElementById("rickroll");
+    const rickVideo = document.getElementById("rickvid");
+    let timeLeft = 60;
+    let userInteracted = false;
+    let progress = 0;
+    let annoyingElements = [];
+    
+    // Ton erzwingen
+    function enableSoundPlayback() {
+      if (!userInteracted) {
+        userInteracted = true;
+        document.removeEventListener("click", enableSoundPlayback);
+        document.removeEventListener("keydown", enableSoundPlayback);
+        rickVideo.muted = false;
+        
+        // Ton-Test starten
+        startMicTest();
+      }
+    }
+    
+    // Falscher Countdown
+    const countdownElement = document.getElementById("countdown");
+    const countdownInterval = setInterval(() => {
+      timeLeft--;
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      countdownElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
+      if (timeLeft <= 10) {
+        countdownElement.style.animation = "pulse 0.5s infinite";
+        showPopup('updatePopup');
+      }
+      
+      if (timeLeft <= 0) {
+        clearInterval(countdownInterval);
+      }
+    }, 1000);
+    
+    // Falscher Fortschrittsbalken
+    setInterval(() => {
+      if (progress < 100) {
+        progress += Math.random() * 5;
+        if (progress > 100) progress = 99;
+        document.getElementById("progressBar").style.width = progress + "%";
+      }
+    }, 3000);
+    
+    // Nervige Buttons
+    const buttons = ['btn1', 'btn2', 'btn3', 'btn4', 'btn5', 'btn6'];
+    buttons.forEach(btnId => {
+      const btn = document.getElementById(btnId);
+      
+      btn.addEventListener('click', () => {
+        // Zufällige Reaktionen
+        const reactions = [
+          () => { alert("Fast geschafft! Bitte bestätigen Sie noch eine weitere Sicherheitsabfrage."); },
+          () => { btn.textContent = "Bitte warten..."; setTimeout(() => btn.textContent = "Fehler! Erneut versuchen", 1500); },
+          () => { btn.style.transform = "translateX(" + (Math.random() * 20 - 10) + "px)"; },
+          () => { fakeProgressJump(); },
+          () => { createAnnoyingElement(); },
+          () => { showPopup('cookiePopup'); }
+        ];
+        
+        reactions[Math.floor(Math.random() * reactions.length)]();
+        resetAfkTimer();
+      });
+    });
+    
+    // Popup-Funktionen
+    function showPopup(popupId) {
+      document.getElementById(popupId).style.display = "block";
+      resetAfkTimer();
+    }
+    
+    document.getElementById("fakeCloseBtn").addEventListener('click', () => {
+      document.getElementById("cookiePopup").style.display = "none";
+      setTimeout(() => showPopup('cookiePopup'), 5000);
+    });
+    
+    document.getElementById("fakeCloseBtn2").addEventListener('click', () => {
+      document.getElementById("updatePopup").style.display = "none";
+      setTimeout(() => showPopup('updatePopup'), 3000);
+    });
+    
+    // Mikrofon-Test
+    function startMicTest() {
+      document.getElementById("micTest").addEventListener('click', () => {
+        alert("🎤 Mikrofon-Test: Bitte sagen Sie laut 'Ich liebe Rick Astley' zur Bestätigung");
+        resetAfkTimer();
+      });
+    }
+    
+    // Tastatur-Test
+    document.addEventListener('keydown', () => {
+      document.getElementById("keyboardTest").style.display = "block";
+      setTimeout(() => {
+        document.getElementById("keyboardTest").style.display = "none";
+      }, 2000);
+    });
+    
+    // Mausverfolgung
+    document.addEventListener('mousemove', (e) => {
+      const trail = document.getElementById("cursorTrail");
+      trail.style.display = "block";
+      trail.style.left = (e.pageX - 10) + "px";
+      trail.style.top = (e.pageY - 10) + "px";
+      
+      // Zufällig nervige Elemente erstellen
+      if (Math.random() > 0.95 && annoyingElements.length < 5) {
+        createAnnoyingElement();
+      }
+    });
+    
+    // Nervige Elemente
+    function createAnnoyingElement() {
+      const annoying = document.createElement('div');
+      annoying.className = 'annoyingElement';
+      annoying.textContent = ['Klick mich!', 'Wichtig!', '⚠️ Warnung!', 'Hier klicken!'][Math.floor(Math.random() * 4)];
+      annoying.style.left = Math.random() * 80 + 10 + '%';
+      annoying.style.top = Math.random() * 80 + 10 + '%';
+      
+      annoying.addEventListener('click', () => {
+        annoying.remove();
+        annoyingElements = annoyingElements.filter(el => el !== annoying);
+        resetAfkTimer();
+      });
+      
+      document.body.appendChild(annoying);
+      annoyingElements.push(annoying);
+      
+      // Automatisch entfernen nach Zeit
+      setTimeout(() => {
+        if (annoying.parentNode) {
+          annoying.remove();
+          annoyingElements = annoyingElements.filter(el => el !== annoying);
+        }
+      }, 10000);
+    }
+    
+    // Fortschritts-Sprung
+    function fakeProgressJump() {
+      if (progress < 90) {
+        progress += 10;
+        document.getElementById("progressBar").style.width = progress + "%";
+      }
+    }
+    
+    // Rickroll-Funktionen
+    function showRickroll() {
+      if (!userInteracted) return;
+      rickDiv.style.display = "flex";
+      rickVideo.currentTime = 0;
+      rickVideo.play();
+      
+      // Vollbild-Modus erzwingen
+      document.body.innerHTML = '';
+      document.body.appendChild(rickDiv);
+      rickDiv.style.display = "flex";
+      
+      // Tastaturkürzel deaktivieren
+      document.addEventListener('keydown', (e) => {
+        e.preventDefault();
+      });
+    }
+    
+    function hideRickroll() {
+      if (rickDiv.style.display === "flex") {
+        rickVideo.pause();
+        rickDiv.style.display = "none";
+      }
+    }
+    
+    function resetAfkTimer() {
+      clearTimeout(afkTimeout);
+      hideRickroll();
+      afkTimeout = setTimeout(showRickroll, afkTime);
+      
+      // Zufällige Hintergrundfarbe ändern
+      if (Math.random() > 0.7) {
+        document.body.style.backgroundColor = ['#f0f8ff', '#fff0f0', '#f0fff0', '#fffff0'][Math.floor(Math.random() * 4)];
+      }
+    }
+    
+    // Alle möglichen Interaktionen überwachen
+    ['mousemove', 'mousedown', 'keydown', 'scroll', 'click', 'touchstart', 'wheel'].forEach(evt => {
+      document.addEventListener(evt, resetAfkTimer);
+    });
+    
+    document.addEventListener("click", enableSoundPlayback);
+    document.addEventListener("keydown", enableSoundPlayback);
+    
+    // Cookie-Popup nach 5 Sekunden anzeigen
+    setTimeout(() => showPopup('cookiePopup'), 5000);
+    
+    resetAfkTimer();
+  </script>
+</body>
+</html>
