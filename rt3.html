@@ -38,6 +38,30 @@
       padding: 20px;
     }
 
+    .product-image {
+      text-align: center;
+      max-width: 500px;
+      margin-bottom: 20px;
+    }
+
+    .product-image img {
+      max-width: 80%;
+      height: auto;
+    }
+
+    .setup-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
+      margin-top: 20px;
+      background-color: #1e1e1e;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
     .step {
       max-width: 500px;
       margin: 40px auto;
@@ -70,64 +94,37 @@
       }
     }
 
-    select, input, button {
-      width: 90%;
-      padding: 15px;
-      margin-top: 10px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 1px solid #444;
+    .setup-buttons {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .button-option {
       background-color: #1e1e1e;
       color: var(--text-light);
-    }
-
-    button {
-      background-color: var(--accent);
-      color: white;
-      border: none;
+      padding: 15px 30px;
+      margin: 10px;
+      font-size: 18px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    button:hover {
-      background-color: var(--hover);
-    }
-
-    .product-image {
+      transition: background-color 0.3s, transform 0.3s;
+      flex: 1 1 calc(33.333% - 20px);
       text-align: center;
-      max-width: 500px;
-      margin-bottom: 20px;
     }
 
-    .product-image img {
-      max-width: 80%;
-      height: auto;
+    .button-option:hover {
+      background-color: var(--hover);
+      transform: scale(1.05);
+    }
+
+    .button-option.selected {
+      background-color: var(--accent);
     }
 
     .summary {
       margin-top: 30px;
-    }
-
-    .setup-section {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 20px;
-      margin-top: 20px;
-    }
-
-    .setup-section a {
-      color: var(--accent);
-      text-decoration: none;
-      margin-top: 20px;
-      font-size: 18px;
-      transition: color 0.3s;
-    }
-
-    .setup-section a:hover {
-      color: var(--hover);
     }
 
     /* Responsive Design */
@@ -142,8 +139,8 @@
         align-items: center;
       }
 
-      select, input, button {
-        width: 100%;
+      .button-option {
+        flex: 1 1 100%;
       }
     }
 
@@ -158,8 +155,8 @@
         align-items: center;
       }
 
-      select, input, button {
-        width: 100%;
+      .button-option {
+        flex: 1 1 100%;
       }
     }
   </style>
@@ -172,36 +169,33 @@
 
   <div class="container">
     <div class="product-image">
-      <img src="router1.png" alt="Produktbild" />
+      <img src="router3.png" alt="Produktbild" />
     </div>
 
-    <div class="step-container">
+    <div class="setup-section">
       <div id="step1" class="step active">
         <h2>Speicher wählen</h2>
-        <select id="storage" onchange="nextStep(2)">
-          <option value="">Bitte wählen</option>
-          <option value="0">Standard</option>
-          <option value="50">+ 50 € - 512 GB</option>
-          <option value="100">+ 100 € - 1 TB</option>
-        </select>
+        <div class="setup-buttons">
+          <div class="button-option" onclick="selectOption('storage', 0)">Standard</div>
+          <div class="button-option" onclick="selectOption('storage', 50)">+ 50 € - 512 GB</div>
+          <div class="button-option" onclick="selectOption('storage', 100)">+ 100 € - 1 TB</div>
+        </div>
       </div>
 
       <div id="step2" class="step">
         <h2>LAN-Modul wählen</h2>
-        <select id="lan" onchange="nextStep(3)">
-          <option value="">Bitte wählen</option>
-          <option value="0">Standard</option>
-          <option value="50">+ 50 € - Gaming LAN</option>
-        </select>
+        <div class="setup-buttons">
+          <div class="button-option" onclick="selectOption('lan', 0)">Standard</div>
+          <div class="button-option" onclick="selectOption('lan', 50)">+ 50 € - Gaming LAN</div>
+        </div>
       </div>
 
       <div id="step3" class="step">
         <h2>WLAN-Modul wählen</h2>
-        <select id="wlan" onchange="nextStep(4)">
-          <option value="">Bitte wählen</option>
-          <option value="0">Standard</option>
-          <option value="100">+ 100 € - WiFi 7</option>
-        </select>
+        <div class="setup-buttons">
+          <div class="button-option" onclick="selectOption('wlan', 0)">Standard</div>
+          <div class="button-option" onclick="selectOption('wlan', 100)">+ 100 € - WiFi 7</div>
+        </div>
       </div>
 
       <div id="step4" class="step">
@@ -213,24 +207,43 @@
         <button onclick="submitForm()">Jetzt Kaufen</button>
       </div>
     </div>
-
-    <div class="setup-section">
-    </div>
   </div>
 
   <script>
-    function nextStep(step) {
-      const current = document.querySelector(".step.active");
-      current.classList.remove("active");
-      document.getElementById("step" + step).classList.add("active");
+    let selectedOptions = {
+      storage: 0,
+      lan: 0,
+      wlan: 0
+    };
 
-      if (step === 4) {
-        const storage = parseInt(document.getElementById("storage").value) || 0;
-        const lan = parseInt(document.getElementById("lan").value) || 0;
-        const wlan = parseInt(document.getElementById("wlan").value) || 0;
-        const total = 99.99 + storage + lan + wlan;
+    function selectOption(type, price) {
+      // Set selected option and highlight the active button
+      selectedOptions[type] = price;
 
-        document.getElementById("summary").innerText = `Gesamtpreis: €${total.toFixed(2)}`;
+      // Highlight selected button
+      const buttons = document.querySelectorAll(`#${type} .button-option`);
+      buttons.forEach((button) => {
+        button.classList.remove('selected');
+      });
+
+      // Find the clicked button and mark it as selected
+      const selectedButton = event.target;
+      selectedButton.classList.add('selected');
+
+      // Move to the next step if it exists
+      const currentStep = document.querySelector('.step.active');
+      const nextStepId = `step${parseInt(currentStep.id.replace('step', '')) + 1}`;
+      const nextStep = document.getElementById(nextStepId);
+      
+      if (nextStep) {
+        currentStep.classList.remove('active');
+        nextStep.classList.add('active');
+      }
+
+      // Update the summary and total price in the last step
+      if (nextStepId === 'step4') {
+        const total = 99.99 + selectedOptions.storage + selectedOptions.lan + selectedOptions.wlan;
+        document.getElementById('summary').innerText = `Gesamtpreis: €${total.toFixed(2)}`;
       }
     }
 
